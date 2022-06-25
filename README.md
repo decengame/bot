@@ -1,0 +1,2 @@
+# bot
+Bot of DecenGame
