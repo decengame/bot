@@ -85,7 +85,7 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 			return
 		}
 		player.Key = key
-		txID, err = botCrypto.InitalTopup(player.Key, 2000000)
+		txID, err = botCrypto.InitalTopup(player.Key, 2000000000)
 		if err != nil {
 			fmt.Printf("Error creating topup: %+v\n", err)
 			returnMessage := "Oops... en error: " + err.Error()
