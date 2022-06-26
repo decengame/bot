@@ -24,9 +24,9 @@ func ReadConfig() error {
 	if len(os.Getenv("PrivateKey")) < 20 {
 		return ReadFileConfig()
 	}
-	Token = os.Getenv(Token)
-	BotPrefix = os.Getenv(BotPrefix)
-	PrivateKey = os.Getenv(PrivateKey)
+	Token = os.Getenv("Token")
+	BotPrefix = os.Getenv("BotPrefix")
+	PrivateKey = os.Getenv("PrivateKey")
 	// If there isn't any error we will return nil.
 	return nil
 }
