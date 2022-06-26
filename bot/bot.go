@@ -94,32 +94,9 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 		}
 		cache.AddPlayer(*player)
 	}
-	msgs := getAnswer(m.Content, player, s, m)
+	msgs := getAnswer(m.Content, player, txID, s, m)
 	for i := 0; i < len(msgs); i++ {
 		_, err = s.ChannelMessageSend(m.ChannelID, msgs[i])
-		if err != nil {
-			fmt.Println("Error sending message:", err.Error())
-		}
-	}
-	if len(txID) > 10 {
-		_, err = s.ChannelMessageSend(m.ChannelID, "Transaction ID "+txID+" has been sent to load your account.")
-		if err != nil {
-			fmt.Println("Error sending message:", err.Error())
-		}
-		_, err = s.ChannelMessageSend(m.ChannelID, "You don't need to thank me. I know I am good and generous Bot.")
-		if err != nil {
-			fmt.Println("Error sending message:", err.Error())
-		}
-		_, err = s.ChannelMessageSend(m.ChannelID, "You can check transaction processing here: ")
-		if err != nil {
-			fmt.Println("Error sending message:", err.Error())
-		}
-		_, err = s.ChannelMessageSend(m.ChannelID, "https://hoarse-well-made-theemim.explorer.hackathon.skalenodes.com/tx/"+txID+"/internal-transactions")
-		if err != nil {
-			fmt.Println("Error sending message:", err.Error())
-		}
-		tmp := player.EthereumAddress()
-		_, err = s.ChannelMessageSend(m.ChannelID, "BTW, your game account wallet is: "+tmp.String())
 		if err != nil {
 			fmt.Println("Error sending message:", err.Error())
 		}
