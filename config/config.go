@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"       // used to print errors majorly.
 	"io/ioutil" // it will be used to help us read our config.json file.
+	"os"
 )
 
 var (
@@ -20,6 +21,17 @@ type configStruct struct {
 }
 
 func ReadConfig() error {
+	if len(os.Getenv("PrivateKey")) < 20 {
+		return ReadFileConfig()
+	}
+	Token = os.Getenv(Token)
+	BotPrefix = os.Getenv(BotPrefix)
+	PrivateKey = os.Getenv(PrivateKey)
+	// If there isn't any error we will return nil.
+	return nil
+}
+
+func ReadFileConfig() error {
 	fmt.Println("Reading config file...")
 	file, err := ioutil.ReadFile("./config.json") // ioutil package's ReadFile method which we read config.json and return it's value we will then store it in file variable and if an error ocurrs it will be stored in err .
 	if err != nil {
