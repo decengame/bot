@@ -62,6 +62,6 @@ func InitalTopup(recipient *ecdsa.PrivateKey, amount int) (txID string, err erro
 		return "", err
 	}
 
-	fmt.Printf("Transaction %s sent", signedTx.Hash().String())
+	fmt.Printf("InitalTopup Transaction %s has been sent\n", signedTx.Hash().String())
 	return signedTx.Hash().String(), nil
 }

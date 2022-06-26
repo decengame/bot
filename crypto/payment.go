@@ -60,6 +60,6 @@ func PayHousePurchase(buyer, seller *model.Player, amount int) (txID string, err
 		return "", err
 	}
 
-	fmt.Printf("Transaction %s sent", signedTx.Hash().String())
+	fmt.Printf("PayHousePurchase Transaction %s sent\n", signedTx.Hash().String())
 	return signedTx.Hash().String(), nil
 }
