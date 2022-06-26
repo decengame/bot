@@ -7,17 +7,15 @@ import (
 	"math/big"
 
 	"github.com/decendgame/bot/config"
+	"github.com/decendgame/bot/model"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
 )
 
-func InitalTopup(recipient *ecdsa.PrivateKey, amount int) (txID string, err error) {
-	privateKey, err := crypto.HexToECDSA(config.PrivateKey)
-	if err != nil {
-		return "", err
-	}
+func PayHousePurchase(buyer, seller *model.Player, amount int) (txID string, err error) {
+	err = nil
 
-	publicKey := privateKey.Public()
+	publicKey := buyer.Key.Public()
 	publicKeyECDSA, ok := publicKey.(*ecdsa.PublicKey)
 	if !ok {
 		return "", fmt.Errorf("cannot assert type: publicKey is not of type *ecdsa.PublicKey")
@@ -36,7 +34,7 @@ func InitalTopup(recipient *ecdsa.PrivateKey, amount int) (txID string, err erro
 		return "", err
 	}
 
-	publicKey = recipient.Public()
+	publicKey = seller.Key.Public()
 	publicKeyECDSA, ok = publicKey.(*ecdsa.PublicKey)
 	if !ok {
 		return "", err
@@ -52,7 +50,7 @@ func InitalTopup(recipient *ecdsa.PrivateKey, amount int) (txID string, err erro
 		return "", err
 	}
 
-	signedTx, err := types.SignTx(tx, types.NewEIP155Signer(chainID), privateKey)
+	signedTx, err := types.SignTx(tx, types.NewEIP155Signer(chainID), buyer.Key)
 	if err != nil {
 		return "", err
 	}

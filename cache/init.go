@@ -10,8 +10,6 @@ func init() {
 	ActivePlayers = make(map[string]*model.Player)
 	NumberOfHouses = 12
 	serverName := "https://decengame.herokuapp.com/tokens/"
-	SkaleRPCServer = "https://hackathon.skalenodes.com/v1/hoarse-well-made-theemim"
-	SkaleNetworkID = 31949730
 
 	GodMasterBot := new(discordgo.User)
 	GodMasterBot.Email = "jeffprestes@gmail.com"

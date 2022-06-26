@@ -1,6 +1,8 @@
 package cache
 
-import "github.com/decendgame/bot/model"
+import (
+	"github.com/decendgame/bot/model"
+)
 
 // TATUM-API-KEY the TATUM API KEY
 var TATUM_API_KEY string
@@ -13,8 +15,3 @@ var Villa map[int]model.House
 var NFTs map[int]model.HouseNFT
 
 var NumberOfHouses int
-
-var (
-	SkaleRPCServer string
-	SkaleNetworkID int
-)

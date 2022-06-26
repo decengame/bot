@@ -27,6 +27,7 @@ func getAnswer(msgRec string, player *model.Player, txID string, session *discor
 			tmp := player.EthereumAddress()
 			resp = append(resp, "BTW, your game account wallet is: "+tmp.String())
 		}
+	} else if msgRec == "yes" && player.IsHerTurn && player.PurchaseOfferPending {
 	} else if strings.Contains(msgRec, "who are you") {
 		respTmp := welcome()
 		resp = append(resp, respTmp)
