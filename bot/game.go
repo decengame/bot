@@ -16,7 +16,7 @@ func getAnswer(msgRec string, player *model.Player, txID string, session *discor
 	msgRec = strings.ToLower(msgRec)
 	msgRec = strings.TrimSpace(msgRec)
 	// fmt.Println(msgRec)
-	if strings.Contains(msgRec, "hello") || msgRec == "hey" || msgRec == "yo" {
+	if strings.Contains(msgRec, "hello") || msgRec == "hey" || msgRec == "yo" || msgRec == "hi" {
 		respTmp := greetings(player.Discord.Username)
 		respTmp = respTmp + "\n"
 		respTmp = respTmp + listCommands()
