@@ -98,6 +98,8 @@ func prepareArrival(p *model.Player, originalMsg *discordgo.MessageCreate) (msg 
 	var m string
 	m = "You are at " + cache.NFTs[p.ActualHouse.IdOnBoard].Name
 	msg = append(msg, m)
+	m = "See its NFT in here: https://hoarse-well-made-theemim.explorer.hackathon.skalenodes.com/token/0x2e7c3adc52b963eb108e0273fb7d9b07f8ac6fc1/instance/" + strconv.Itoa(p.ActualHouse.IdOnBoard)
+	msg = append(msg, m)
 	if cache.Villa[p.ActualHouse.IdOnBoard].Owner.ID != originalMsg.Author.ID {
 		if cache.Villa[p.ActualHouse.IdOnBoard].Owner.ID == BotId {
 			m = "It is avaliable for purchse. Its price is " + strconv.Itoa(p.ActualHouse.GetPrice())
