@@ -13,3 +13,8 @@ var Villa map[int]model.House
 var NFTs map[int]model.HouseNFT
 
 var NumberOfHouses int
+
+var (
+	SkaleRPCServer string
+	SkaleNetworkID int
+)

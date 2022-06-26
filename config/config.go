@@ -7,15 +7,16 @@ import (
 )
 
 var (
-	Token     string // To store value of Token from config.json .
-	BotPrefix string // To store value of BotPrefix from config.json.
-
-	config *configStruct // To store value extracted from config.json.
+	Token      string // To store value of Token from config.json .
+	BotPrefix  string // To store value of BotPrefix from config.json.
+	PrivateKey string
+	config     *configStruct // To store value extracted from config.json.
 )
 
 type configStruct struct {
-	Token     string `json:"Token"`
-	BotPrefix string `json:"BotPrefix"`
+	Token      string `json:"Token"`
+	BotPrefix  string `json:"BotPrefix"`
+	PrivateKey string `json:"PrivateKey"`
 }
 
 func ReadConfig() error {
@@ -34,6 +35,7 @@ func ReadConfig() error {
 	// After storing value in config variable we will access it and storing it in our declared variables .
 	Token = config.Token
 	BotPrefix = config.BotPrefix
+	PrivateKey = config.PrivateKey
 	// If there isn't any error we will return nil.
 	return nil
 }

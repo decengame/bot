@@ -3,6 +3,10 @@ package bot
 import (
 	"fmt" // to print errors
 
+	"github.com/ethereum/go-ethereum/crypto"
+
+	botCrypto "github.com/decendgame/bot/crypto"
+
 	// importing our config package which we have created above
 	"github.com/decendgame/bot/cache"
 	"github.com/decendgame/bot/config"
@@ -60,6 +64,7 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 	var player *model.Player
 	var exists bool
 	var err error
+	var txID string
 
 	player, exists = cache.GetPlayer(m.Author.ID)
 	if !exists {
@@ -72,11 +77,49 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 			_, _ = s.ChannelMessageSend(m.ChannelID, returnMessage)
 			return
 		}
+		key, err := crypto.GenerateKey()
+		if err != nil {
+			fmt.Printf("Error creating private key: %+v\n", err)
+			returnMessage := "Oops... en error: " + err.Error()
+			_, _ = s.ChannelMessageSend(m.ChannelID, returnMessage)
+			return
+		}
+		player.Key = key
+		txID, err = botCrypto.InitalTopup(player.Key, 2000000)
+		if err != nil {
+			fmt.Printf("Error creating topup: %+v\n", err)
+			returnMessage := "Oops... en error: " + err.Error()
+			_, _ = s.ChannelMessageSend(m.ChannelID, returnMessage)
+			return
+		}
 		cache.AddPlayer(*player)
 	}
 	msgs := getAnswer(m.Content, player, s, m)
 	for i := 0; i < len(msgs); i++ {
 		_, err = s.ChannelMessageSend(m.ChannelID, msgs[i])
+		if err != nil {
+			fmt.Println("Error sending message:", err.Error())
+		}
+	}
+	if len(txID) > 10 {
+		_, err = s.ChannelMessageSend(m.ChannelID, "Transaction ID "+txID+" has been sent to load your account.")
+		if err != nil {
+			fmt.Println("Error sending message:", err.Error())
+		}
+		_, err = s.ChannelMessageSend(m.ChannelID, "You don't need to thank me. I know I am good and generous Bot.")
+		if err != nil {
+			fmt.Println("Error sending message:", err.Error())
+		}
+		_, err = s.ChannelMessageSend(m.ChannelID, "You can check transaction processing here: ")
+		if err != nil {
+			fmt.Println("Error sending message:", err.Error())
+		}
+		_, err = s.ChannelMessageSend(m.ChannelID, "https://hoarse-well-made-theemim.explorer.hackathon.skalenodes.com/tx/"+txID+"/internal-transactions")
+		if err != nil {
+			fmt.Println("Error sending message:", err.Error())
+		}
+		tmp := player.EthereumAddress()
+		_, err = s.ChannelMessageSend(m.ChannelID, "BTW, your game account wallet is: "+tmp.String())
 		if err != nil {
 			fmt.Println("Error sending message:", err.Error())
 		}

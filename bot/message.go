@@ -20,7 +20,7 @@ And last but not least I AM A CRYPTO DEGEN`
 
 func listCommands() (msg string) {
 	msg = `
-Type any of these commands:
+For having fun together, send to me one of these commands:
 start                   = start the game (work in progress)
 who are you             = tell who i am
 how to play             = explain the basic game mechanics
