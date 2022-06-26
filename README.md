@@ -17,5 +17,5 @@ $git push heroku main
 ## Golang Proxies
 
 ```bash
-$abigen --abi decenNFT.json --pkg crypto --type nft --out ./crypto/decennft.go 
+$abigen --abi decenNFT.json --pkg crypto --type nft --out ./crypto/decennft.go  
 ```
