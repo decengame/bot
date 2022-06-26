@@ -13,9 +13,9 @@ func AddPlayer(player model.Player) {
 func GetPlayer(playerID string) (player *model.Player, exists bool) {
 	player, exists = ActivePlayers[playerID]
 	if exists {
-		fmt.Println("Player ", player.Discord.Username, " is back")
+		fmt.Print("Player ", player.Discord.Username, " is back\n\n")
 	} else {
-		fmt.Println("Player ", playerID, " is new")
+		fmt.Print("Player ", playerID, " is new\n\n")
 	}
 	return
 }
