@@ -9,7 +9,7 @@ func init() {
 	TATUM_API_KEY = "cedbe61a-44ec-4c8c-b1bb-a481a2534f42"
 	ActivePlayers = make(map[string]*model.Player)
 	NumberOfHouses = 12
-	serverName := "http://teste.com/tokens/"
+	serverName := "https://decengame.herokuapp.com/tokens/"
 	SkaleRPCServer = "https://hackathon.skalenodes.com/v1/hoarse-well-made-theemim"
 	SkaleNetworkID = 31949730
 
