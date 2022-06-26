@@ -10,7 +10,7 @@ import (
 	"github.com/decendgame/bot/services/tatum"
 )
 
-func getAnswer(msgRec string, player *model.Player, session *discordgo.Session, originalMsg *discordgo.MessageCreate) (resp []string) {
+func getAnswer(msgRec string, player *model.Player, txID string, session *discordgo.Session, originalMsg *discordgo.MessageCreate) (resp []string) {
 	msgRec = strings.ToLower(msgRec)
 	msgRec = strings.TrimSpace(msgRec)
 	// fmt.Println(msgRec)
@@ -19,6 +19,14 @@ func getAnswer(msgRec string, player *model.Player, session *discordgo.Session, 
 		respTmp = respTmp + "\n"
 		respTmp = respTmp + listCommands()
 		resp = append(resp, respTmp)
+		if len(txID) > 10 {
+			resp = append(resp, "Transaction ID "+txID+" has been sent to load your account.")
+			resp = append(resp, "You don't need to thank me. I know I am good and generous Bot.")
+			resp = append(resp, "You can check transaction processing here: ")
+			resp = append(resp, "https://hoarse-well-made-theemim.explorer.hackathon.skalenodes.com/tx/"+txID+"/internal-transactions")
+			tmp := player.EthereumAddress()
+			resp = append(resp, "BTW, your game account wallet is: "+tmp.String())
+		}
 	} else if strings.Contains(msgRec, "who are you") {
 		respTmp := welcome()
 		resp = append(resp, respTmp)
