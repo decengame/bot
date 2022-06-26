@@ -32,7 +32,7 @@ func (h *House) SetPrice(newPrice int) {
 	}
 }
 
-func (h *House) GetPrice() (price int) {
+func (h House) GetPrice() (price int) {
 	price = h.price
 	return
 }

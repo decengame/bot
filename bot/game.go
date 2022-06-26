@@ -6,6 +6,8 @@ import (
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/decendgame/bot/cache"
+	"github.com/decendgame/bot/config"
+	gameCrypto "github.com/decendgame/bot/crypto"
 	"github.com/decendgame/bot/model"
 	"github.com/decendgame/bot/services/tatum"
 )
@@ -28,6 +30,18 @@ func getAnswer(msgRec string, player *model.Player, txID string, session *discor
 			resp = append(resp, "BTW, your game account wallet is: "+tmp.String())
 		}
 	} else if msgRec == "yes" && player.IsHerTurn && player.PurchaseOfferPending {
+		txID, err := gameCrypto.PayHousePurchase(player, config.BotPlayer, cache.Villa[player.Position].GetPrice())
+		resp = append(resp, "Payment transaction has been sent. Its ID is "+txID)
+		if err != nil {
+			resp = append(resp, err.Error())
+		} else {
+			txID, err = gameCrypto.HouseOwnershipTransfer(player, config.BotPlayer, player.Position)
+			if err != nil {
+				resp = append(resp, err.Error())
+			} else {
+				resp = append(resp, "Transfer transaction has been sent. Its ID is "+txID)
+			}
+		}
 	} else if strings.Contains(msgRec, "who are you") {
 		respTmp := welcome()
 		resp = append(resp, respTmp)

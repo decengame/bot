@@ -7,8 +7,11 @@ import (
 	"math/big"
 	"os"
 
+	"github.com/bwmarrin/discordgo"
+	"github.com/decendgame/bot/model"
 	"github.com/decendgame/bot/smartcontract"
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethclient"
 )
 
@@ -21,6 +24,7 @@ var (
 	NFTAddress  common.Address
 	NFTContract *smartcontract.Nft
 	ETHClient   *ethclient.Client
+	BotPlayer   *model.Player
 	config      *configStruct // To store value extracted from config.json.
 )
 
@@ -54,7 +58,10 @@ func ReadConfig() error {
 	if err != nil {
 		return err
 	}
-
+	err = LoadBotPlayer()
+	if err != nil {
+		return err
+	}
 	// If there isn't any error we will return nil.
 	return nil
 }
@@ -87,6 +94,10 @@ func ReadFileConfig() error {
 	if err != nil {
 		return err
 	}
+	err = LoadBotPlayer()
+	if err != nil {
+		return err
+	}
 	// If there isn't any error we will return nil.
 	return nil
 }
@@ -108,5 +119,22 @@ func LoadNFT() (err error) {
 		fmt.Printf("Error connecting to NFT Contract: %s\n", err.Error())
 		return
 	}
+	return
+}
+
+func LoadBotPlayer() (err error) {
+	err = nil
+	BotPlayer = new(model.Player)
+	privateKey, err := crypto.HexToECDSA(PrivateKey)
+	if err != nil {
+		return err
+	}
+	GodMasterBot := new(discordgo.User)
+	GodMasterBot.Email = "jeffprestes@gmail.com"
+	GodMasterBot.Username = "DecendGameBot"
+	GodMasterBot.Discriminator = "1424"
+	GodMasterBot.ID = "990059486054064128"
+	BotPlayer.Discord = *GodMasterBot
+	BotPlayer.Key = privateKey
 	return
 }
