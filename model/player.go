@@ -6,6 +6,21 @@ import (
 )
 
 type Player struct {
-	Wallet  hdwallet.Wallet
-	Discord discordgo.User
+	Wallet               hdwallet.Wallet
+	Discord              discordgo.User
+	Position             int
+	Playing              bool
+	ActualHouse          House
+	IsHerTurn            bool
+	PurchaseOfferPending bool
+}
+
+func (p *Player) MovePlayer(numberOfHouses int, totalHousesVilla int) (newPos int, completeALap bool) {
+	newPos = p.Position + numberOfHouses
+	if newPos > totalHousesVilla {
+		newPos = totalHousesVilla - newPos
+		completeALap = true
+	}
+	p.Position = newPos
+	return
 }

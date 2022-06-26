@@ -34,6 +34,7 @@ func Start() {
 	}
 	// Storing our id from u to BotId .
 	BotId = u.ID
+	fmt.Println("BotID on Discord is", BotId)
 
 	// Adding handler function to handle our messages using AddHandler from discordgo package. We will declare messageHandler function later.
 	goBot.AddHandler(messageHandler)
@@ -56,24 +57,28 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if m.Author.ID == BotId {
 		return
 	}
-	var player model.Player
+	var player *model.Player
 	var exists bool
 	var err error
-	var returnMessage string
 
 	player, exists = cache.GetPlayer(m.Author.ID)
 	if !exists {
+		player = new(model.Player)
 		player.Discord = *m.Author
 		player.Wallet, err = tatum.CreateWallet()
 		if err != nil {
 			fmt.Printf("Error creating wallet: %+v\n", err)
-			returnMessage = "Oops... en error: " + err.Error()
+			returnMessage := "Oops... en error: " + err.Error()
 			_, _ = s.ChannelMessageSend(m.ChannelID, returnMessage)
 			return
 		}
+		cache.AddPlayer(*player)
 	}
-	// If we message ping to our bot in our discord it will return us pong .
-	if m.Content == "ping" {
-		_, _ = s.ChannelMessageSend(m.ChannelID, "pong")
+	msgs := getAnswer(m.Content, player, s, m)
+	for i := 0; i < len(msgs); i++ {
+		_, err = s.ChannelMessageSend(m.ChannelID, msgs[i])
+		if err != nil {
+			fmt.Println("Error sending message:", err.Error())
+		}
 	}
 }
