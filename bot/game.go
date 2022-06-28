@@ -17,18 +17,7 @@ func GetAnswer(msgRec string, player *model.Player, txID string, session *discor
 	msgRec = strings.TrimSpace(msgRec)
 	// fmt.Println(msgRec)
 	if strings.Contains(msgRec, "hello") || msgRec == "hey" || msgRec == "yo" || msgRec == "hi" {
-		respTmp := greetings(player.Discord.Username)
-		respTmp = respTmp + "\n"
-		respTmp = respTmp + listCommands()
-		resp = append(resp, respTmp)
-		if len(txID) > 10 {
-			resp = append(resp, "Transaction ID "+txID+" has been sent to load your account.")
-			resp = append(resp, "You don't need to thank me. I know I am good and generous Bot.")
-			resp = append(resp, "You can check transaction processing here: ")
-			resp = append(resp, "https://hoarse-well-made-theemim.explorer.hackathon.skalenodes.com/tx/"+txID+"/internal-transactions")
-			tmp := player.EthereumAddress()
-			resp = append(resp, "BTW, your game account wallet is: "+tmp.String())
-		}
+		resp = initialMsg(txID, *player)
 	} else if msgRec == "yes" && player.IsHerTurn && player.PurchaseOfferPending {
 		txID, err := gameCrypto.PayHousePurchase(player, config.BotPlayer, cache.Villa[player.Position].GetPrice())
 		resp = append(resp, "Payment transaction has been sent. Its ID is "+txID)
@@ -102,7 +91,7 @@ func prepareArrival(p *model.Player, originalMsg *discordgo.MessageCreate) (msg 
 	msg = append(msg, m)
 	if cache.Villa[p.ActualHouse.IdOnBoard].Owner.ID != originalMsg.Author.ID {
 		if cache.Villa[p.ActualHouse.IdOnBoard].Owner.ID == BotId {
-			m = "It is avaliable for purchse. Its price is " + strconv.Itoa(p.ActualHouse.GetPrice())
+			m = "It is avaliable for purchase. Its price is " + strconv.Itoa(p.ActualHouse.GetPrice())
 			msg = append(msg, m)
 			m = "Do you want to buy it ? Yes or No?"
 			msg = append(msg, m)
