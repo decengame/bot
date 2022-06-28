@@ -12,7 +12,7 @@ import (
 	"github.com/decendgame/bot/services/tatum"
 )
 
-func getAnswer(msgRec string, player *model.Player, txID string, session *discordgo.Session, originalMsg *discordgo.MessageCreate) (resp []string) {
+func GetAnswer(msgRec string, player *model.Player, txID string, session *discordgo.Session, originalMsg *discordgo.MessageCreate) (resp []string) {
 	msgRec = strings.ToLower(msgRec)
 	msgRec = strings.TrimSpace(msgRec)
 	// fmt.Println(msgRec)

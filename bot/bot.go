@@ -94,7 +94,7 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 		}
 		cache.AddPlayer(*player)
 	}
-	msgs := getAnswer(m.Content, player, txID, s, m)
+	msgs := GetAnswer(m.Content, player, txID, s, m)
 	for i := 0; i < len(msgs); i++ {
 		_, err = s.ChannelMessageSend(m.ChannelID, msgs[i])
 		if err != nil {
